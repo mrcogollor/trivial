@@ -1,0 +1,123 @@
+@import 'reset';
+@import 'fonts';
+
+
+*{
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; 
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/*
+	FUNCIONES
+	@function test($color){
+	   @return  2px 2px 4px $color;
+	}
+
+	USO
+	.miclase
+	{
+		text-shadow:test(red);
+	}
+
+	************************************
+
+	MIXINS
+	@mixin text-shadow($color, $rgb) {
+	   text-shadow: 0px 1px 12px $color;
+	   text-shadow: 0px 1px 12px $rgb;
+	}
+
+	USO
+	.miclase
+	{
+		@include text-shadow(red, rgba(216, 14, 7, 0.65));
+	}
+*/
+
+/*************************************************
+* COLORES
+*************************************************/
+$black:#000;
+$white:#fff;
+$gray:#2a2f30;
+$grayLine:#435257;
+
+
+/*************************************************
+* FUENTES
+*************************************************/
+
+$Regular: 'montserratregular', Helvetica, Arial, sans-serif;
+$Black: 'montserratblack', Helvetica, Arial, sans-serif;
+$Bold: 'montserratbold', Helvetica, Arial, sans-serif;
+$Light: 'montserratlight', Helvetica, Arial, sans-serif;
+$Line: 'montserrathairline', Helvetica, Arial, sans-serif;
+
+/*************************************************
+* DEVIDE SIZES
+*************************************************/
+
+$mobile-width: 320px;
+$tablet-width: 768px;
+$desktop-width: 1024px;
+
+/*************************************************
+* MIXINS
+*************************************************/
+
+@mixin mobile {
+  @media (min-width: #{$mobile-width}) and (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	font-weight: normal;
+	background: $gray;
+	.container {
+		display: block;
+		width: 100%;
+		margin:0 auto;
+		.title {
+			color:$white;
+			text-transform: uppercase;
+			text-align: center;
+			font-family: $Bold;
+			font-size: 60px;
+			margin-top: 100px;
+			padding-bottom: 50px;
+			border-bottom:1px solid $grayLine;
+		}
+		.subtitle {
+			color:$white;
+			text-align: center;
+			font-family: $Regular;
+			font-size: 14px;
+		    line-height: initial;
+	        width: 33%;
+    		margin: 30px auto;
+    		@include mobile {
+    			width: 100%;
+			}
+
+		}
+
+	}
+	
+}

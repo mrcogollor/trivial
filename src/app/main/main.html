@@ -1,6 +1,17 @@
 <div class="container">
   <p class="title">trivial</p>
-  <p class="subtitle">En este trivial pondrás a prueba tu conocimiento sobre sobre datos matemáticos (¿Cuantas caras tiene un triángulo?).</p>
+  <div data-ng-show="!main.inGame">
+    <p class="subtitle" >En este trivial pondrás a prueba tu conocimiento sobre sobre datos matemáticos (¿Cuantas caras tiene un triángulo?).</p>
+    <a href="" data-ng-click="main.startGame()">empezar</a>
+  </div>
+
+
+  <div class="section-question" data-ng-show="main.inGame">
+    <p class="number-question">Pregunta {{main.generados.length}} de 10</p>
+    <p class="question">What {{main.pregunta.text}} ?</p>
+  </div>
+  
+
 </div>
 
 

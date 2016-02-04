@@ -1,5 +1,7 @@
 @import 'reset';
 @import 'fonts';
+$fa-font-path: "../../bower_components/font-awesome/fonts";
+@import "../../bower_components/font-awesome/scss/font-awesome.scss";
 
 
 *{
@@ -9,33 +11,6 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/*
-	FUNCIONES
-	@function test($color){
-	   @return  2px 2px 4px $color;
-	}
-
-	USO
-	.miclase
-	{
-		text-shadow:test(red);
-	}
-
-	************************************
-
-	MIXINS
-	@mixin text-shadow($color, $rgb) {
-	   text-shadow: 0px 1px 12px $color;
-	   text-shadow: 0px 1px 12px $rgb;
-	}
-
-	USO
-	.miclase
-	{
-		@include text-shadow(red, rgba(216, 14, 7, 0.65));
-	}
-*/
-
 /*************************************************
 * COLORES
 *************************************************/
@@ -43,7 +18,13 @@ $black:#000;
 $white:#fff;
 $gray:#2a2f30;
 $grayLine:#435257;
+$grayAnswer:#657679;
 $btn:#25bbbb;
+$color-progress-bg: #1d2121;
+$color-green: #77b452;
+$color-orange: #bc9135;
+$color-red: #e8524b;
+
 
 
 /*************************************************
@@ -99,7 +80,7 @@ $desktop-width: 1024px;
 {
 	width: auto;
 	height: auto;
-	padding: 13px 40px;
+    padding: 12px 49px;
 	background: $btn;
 	color: $black;
 	text-decoration: none;
@@ -107,7 +88,7 @@ $desktop-width: 1024px;
 	font-family: $Regular;
 	font-size:14px;
 	border-radius: 0.25em;
-	margin: 10px 2px;
+	text-align: center;
 	position: relative;
 	display: inline-block;
 	letter-spacing: 1px;
@@ -115,13 +96,108 @@ $desktop-width: 1024px;
 	display: block;
 	position: relative;
 	left: 50%;
-	margin-left: -77px;
+	margin-left: -72.5px;
 	@include transicion(background, 0.35s, ease, 0s);
 }
 
 @mixin boton_hover()
 {
 	background: $white;
+}
+
+@mixin checkbox()
+{
+	[type="checkbox"]:not(:checked),
+	[type="checkbox"]:checked {
+	  position: absolute;
+	  left: -9999px;
+	}
+	[type="checkbox"]:not(:checked) + label,
+	[type="checkbox"]:checked + label {
+	  position: relative;
+	  padding-left: 25px;
+	  padding-top:2px;
+	  font-family: $Regular;
+	  color:$grayAnswer;
+	  cursor: pointer;
+	}
+
+	[type="checkbox"]:not(:checked) + label:before,
+	[type="checkbox"]:checked + label:before {
+	  content: '';
+	  position: absolute;
+	  left:0; 
+	  top: 2px;
+	  width: 17px; 
+	  height: 17px;
+	  border-radius: 50%;
+	  border: 1px solid $btn;
+	  background: $btn;
+	}
+	
+	[type="checkbox"]:not(:checked) + label:after,
+	[type="checkbox"]:checked + label:after {
+	  content: '✔';
+	  position: absolute;
+	  top: 4px;
+      left: 4px;
+	  font-size: 18px;
+	  line-height: 0.8;
+	  color: $gray;
+	  font-family: $Bold; 
+	  transition: all .2s;
+	}
+	/* checked mark aspect changes */
+	[type="checkbox"]:not(:checked) + label:after {
+	  opacity: 0;
+	  transform: scale(0);
+	}
+	[type="checkbox"]:checked + label:after {
+	  opacity: 1;
+	  transform: scale(1);
+	}
+
+	/* accessibility */
+	[type="checkbox"]:checked:focus + label:before,
+	[type="checkbox"]:not(:checked):focus + label:before {
+	  border: 1px dotted blue;
+	}
+
+	/* hover style just for information */
+	label:hover:before {
+	  border: 2px solid $white!important;
+	}
+}
+
+@mixin multi-column-list($column-width, $column-rule-style) {
+  -webkit-column-width: $column-width;
+  -moz-column-width: $column-width;
+  -o-column-width: $column-width;
+  -ms-column-width: $column-width;
+  column-width: $column-width;
+
+  -webkit-column-rule-style: $column-rule-style;
+  -moz-column-rule-style: $column-rule-style;
+  -o-column-rule-style: $column-rule-style;
+  -ms-column-rule-style: $column-rule-style;
+  column-rule-style: $column-rule-style;
+}
+
+$progress-width: 395px;
+$progress-height: 22px;
+
+@keyframes move {
+  0% {
+    width: 0;
+    background: $color-green;
+  }
+  50% {
+    background: $color-orange;
+  }
+  100% {
+	width: 100%;
+    background: $color-red;
+  }
 }
 
 body {
@@ -131,15 +207,44 @@ body {
 	background: $gray;
 	.container {
 		display: block;
-		width: 100%;
 		margin:0 auto;
 		color:$white;
+		width: 560px;
+		@include mobile {
+			width: 280px;
+		}
+		.progress {
+			background-color: $color-progress-bg;
+			height: $progress-height;
+			position: relative;
+			width: $progress-width;
+			border-radius:15px;
+			border:3px solid #000;
+			box-shadow: inset 0 -1px 1px rgba(255,255,255,0);
+			margin: 10px auto 40px;
+			.bar {
+				animation: move 30s linear;
+				background-size: $progress-width $progress-height;
+				height: 100%;
+				position: relative;
+				overflow:hidden;
+				border-top-right-radius: 20px;
+				border-bottom-right-radius: 20px;
+				border-top-left-radius: 20px;
+				border-bottom-left-radius: 20px;
+				display:block;
+				box-shadow: 
+				inset 0 2px 9px  rgba(255,255,255,0),
+				inset 0 -2px 6px rgba(0,0,0,0);
+			}
+		}
+		
 		.title {
 			text-transform: uppercase;
 			text-align: center;
 			font-family: $Bold;
 			font-size: 60px;
-			margin-top: 100px;
+			margin-top: 50px;
 			padding-bottom: 50px;
 			border-bottom:1px solid $grayLine;
 		}
@@ -148,18 +253,22 @@ body {
 			font-family: $Regular;
 			font-size: 14px;
 		    line-height: initial;
-	        width: 33%;
+	        width: 66%;
     		margin: 30px auto;
     		@include mobile {
     			width: 100%;
 			}
 		}
-		a {
+		.normal-button, .big-button {
 			@include boton();
 			&:hover{
 				@include boton_hover();
 			}
 		}
+		.big-button{
+			margin-left: -83.5px;
+		}
+		
 		.section-question {
 			width: 75%;
 			display: block;
@@ -176,6 +285,68 @@ body {
 				font-size: 20px;
 		    	line-height: initial;
 		    	text-align: center;
+			}
+			.answers {
+				list-style: none;
+			    padding: 0;
+			    margin: 50px auto 25px;
+			    height: 100px;
+			    width: 200px;
+			    left: 50%;
+			    position: relative;
+			    margin-left: -100px;
+			    position: relative;
+			    @include multi-column-list(200px, solid);
+
+			    li {
+				    display: inline-block;
+				    padding: 15px 20px;
+				    @include checkbox();
+				}
+			}
+			.list-answers {
+				display: block;
+				float: left;
+				width: 100%;
+			    margin-top: 30px;
+				ul {
+					list-style: none;
+					padding: 0;
+					margin: 0;
+					li {
+						border-top: 1px solid $grayLine;
+						color:$white;
+						font-family: $Regular;
+						font-size: 14px;
+						text-align: center;
+						padding: 15px 20px;
+						.ok {
+						    color: $color-green;
+    						font-size: 20px;
+    						vertical-align: middle;
+    						font-size: 16px;
+							font-family: $Regular;
+							margin-top:10px;
+						}
+						.ko {
+							font-size: 20px;
+							vertical-align: middle;
+							color:$color-red;
+							font-size: 16px;
+							font-family: $Regular;
+							margin-top:10px;
+						}
+						i {
+							font-size: 25px;
+							vertical-align: middle;
+							padding-right: 5px;
+
+						}
+						.correct-answer{
+							color:$grayAnswer;
+						}
+					}
+				}
 			}
 		}
 	}

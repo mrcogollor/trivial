@@ -1,14 +1,41 @@
 <div class="container">
   <p class="title">trivial</p>
-  <div data-ng-show="!main.inGame">
-    <p class="subtitle" >En este trivial pondrás a prueba tu conocimiento sobre sobre datos matemáticos (¿Cuantas caras tiene un triángulo?).</p>
-    <a href="" data-ng-click="main.startGame()">empezar</a>
+  <div data-ng-show="main.intro">
+    <p class="subtitle" >In this trivial you will test your knowledge about mathematical facts (What is the number of sides of a triangle?).</p>
+    <a class="normal-button" href="" data-ng-click="main.startGame()">start</a>
   </div>
 
 
   <div class="section-question" data-ng-show="main.inGame">
-    <p class="number-question">Pregunta {{main.generados.length}} de 10</p>
-    <p class="question">What {{main.pregunta.text}} ?</p>
+    <p class="number-question">Question {{main.generados.length}} of 10</p>
+    <div class="progress">
+      <div class="bar"></div>
+    </div>
+    <p class="question">{{main.pregunta.text}}</p>
+    <ul class="answers">
+      <li data-ng-repeat="answer in main.answers">
+        <input type="checkbox" id="answer-{{$index}}" ng-model="main.result.answer" ng-true-value="{{answer}}" ng-false-value="" >
+        <label class="checkbox" for="answer-{{$index}}">{{answer}}</label>
+      </li>
+    </ul>
+    <a class="big-button" href="" data-ng-click="main.nextQuestion(main.result.answer)">answer</a>
+    <div class="list-answers">
+      <ul>
+        <li data-ng-repeat="finalAnswer in main.finalAnswers">
+          <p>{{finalAnswer.text}}</p>
+          <p class="ok" data-ng-if="finalAnswer.response == finalAnswer.valid">
+            <i class="fa fa-check-circle"></i>
+            {{finalAnswer.response}}
+          </p>
+          <p class="ko" data-ng-if="finalAnswer.response != finalAnswer.valid">
+            <i class="fa fa-times-circle"></i>
+            {{finalAnswer.response}}
+            <span class="correct-answer"> - The correct answer was {{finalAnswer.valid}}</span>
+          </p>
+        </li>
+      </ul>
+    </div>
+   
   </div>
   
 

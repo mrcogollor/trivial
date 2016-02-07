@@ -82,6 +82,8 @@ $desktop-width: 1024px;
 	height: auto;
     padding: 12px 49px;
 	background: $btn;
+	border: none;
+	cursor:pointer;
 	color: $black;
 	text-decoration: none;
 	text-transform: uppercase;
@@ -95,6 +97,7 @@ $desktop-width: 1024px;
 	float: left;
 	display: block;
 	position: relative;
+	outline:none;
 	left: 50%;
 	margin-left: -72.5px;
 	@include transicion(background, 0.35s, ease, 0s);
@@ -186,20 +189,6 @@ $desktop-width: 1024px;
 $progress-width: 395px;
 $progress-height: 22px;
 
-@keyframes move {
-  0% {
-    width: 0;
-    background: $color-green;
-  }
-  50% {
-    background: $color-orange;
-  }
-  100% {
-	width: 100%;
-    background: $color-red;
-  }
-}
-
 body {
 	width: 100%;
 	height: 100%;
@@ -217,25 +206,36 @@ body {
 			background-color: $color-progress-bg;
 			height: $progress-height;
 			position: relative;
-			width: $progress-width;
 			border-radius:15px;
 			border:3px solid #000;
 			box-shadow: inset 0 -1px 1px rgba(255,255,255,0);
 			margin: 10px auto 40px;
 			.bar {
-				animation: move 30s linear;
+				transition: width 1s linear;
 				background-size: $progress-width $progress-height;
 				height: 100%;
 				position: relative;
 				overflow:hidden;
-				border-top-right-radius: 20px;
-				border-bottom-right-radius: 20px;
 				border-top-left-radius: 20px;
 				border-bottom-left-radius: 20px;
 				display:block;
-				box-shadow: 
-				inset 0 2px 9px  rgba(255,255,255,0),
-				inset 0 -2px 6px rgba(0,0,0,0);
+				box-shadow: inset 0 2px 9px  rgba(255,255,255,0),inset 0 -2px 6px rgba(0,0,0,0);
+			}
+			.none {
+				background: none;
+			}
+			.green {
+				background: $color-green;	
+			}
+			.orange {
+				background: $color-orange;
+			}
+			.red {
+				background: $color-red;
+			}
+			.final {
+				border-top-right-radius: 20px;
+				border-bottom-right-radius: 20px;	
 			}
 		}
 		
@@ -247,6 +247,13 @@ body {
 			margin-top: 50px;
 			padding-bottom: 50px;
 			border-bottom:1px solid $grayLine;
+		}
+		.question {
+			font-family: $Regular;
+			font-size: 20px;
+	    	line-height: initial;
+	    	text-align: center;
+	    	margin-top: 30px;
 		}
 		.subtitle {
 			text-align: center;
@@ -272,19 +279,13 @@ body {
 		.section-question {
 			width: 75%;
 			display: block;
-			margin: 40px auto;
+			margin: 40px auto 0;
 			.number-question {
 				text-transform: uppercase;
 				text-align: center;
 				font-family: $Regular;
 			    font-size: 14px;
     			letter-spacing: 2px;
-			}
-			.question {
-				font-family: $Regular;
-				font-size: 20px;
-		    	line-height: initial;
-		    	text-align: center;
 			}
 			.answers {
 				list-style: none;
@@ -304,47 +305,47 @@ body {
 				    @include checkbox();
 				}
 			}
-			.list-answers {
-				display: block;
-				float: left;
-				width: 100%;
-			    margin-top: 30px;
-				ul {
-					list-style: none;
-					padding: 0;
-					margin: 0;
-					li {
-						border-top: 1px solid $grayLine;
-						color:$white;
+		}
+		.list-answers {
+			display: block;
+			float: left;
+			width: 100%;
+		    margin-top: 30px;
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				li {
+					border-top: 1px solid $grayLine;
+					color:$white;
+					font-family: $Regular;
+					font-size: 14px;
+					text-align: center;
+					padding: 15px 20px;
+					.ok {
+					    color: $color-green;
+						font-size: 20px;
+						vertical-align: middle;
+						font-size: 16px;
 						font-family: $Regular;
-						font-size: 14px;
-						text-align: center;
-						padding: 15px 20px;
-						.ok {
-						    color: $color-green;
-    						font-size: 20px;
-    						vertical-align: middle;
-    						font-size: 16px;
-							font-family: $Regular;
-							margin-top:10px;
-						}
-						.ko {
-							font-size: 20px;
-							vertical-align: middle;
-							color:$color-red;
-							font-size: 16px;
-							font-family: $Regular;
-							margin-top:10px;
-						}
-						i {
-							font-size: 25px;
-							vertical-align: middle;
-							padding-right: 5px;
+						margin-top:10px;
+					}
+					.ko {
+						font-size: 20px;
+						vertical-align: middle;
+						color:$color-red;
+						font-size: 16px;
+						font-family: $Regular;
+						margin-top:10px;
+					}
+					i {
+						font-size: 25px;
+						vertical-align: middle;
+						padding-right: 5px;
 
-						}
-						.correct-answer{
-							color:$grayAnswer;
-						}
+					}
+					.correct-answer{
+						color:$grayAnswer;
 					}
 				}
 			}

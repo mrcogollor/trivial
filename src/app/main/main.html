@@ -1,15 +1,15 @@
 <div class="container">
   <p class="title">trivial</p>
-  <div data-ng-show="main.intro">
+  <div data-ng-if="main.intro">
     <p class="subtitle" >In this trivial you will test your knowledge about mathematical facts (What is the number of sides of a triangle?).</p>
-    <a class="normal-button" href="" data-ng-click="main.startGame()">start</a>
+    <button class="normal-button" href="" data-ng-click="main.startGame()" data-ng-disabled="main.flag">start</button>
   </div>
 
 
-  <div class="section-question" data-ng-show="main.inGame">
+  <div class="section-question" data-ng-if="main.inGame">
     <p class="number-question">Question {{main.generados.length}} of 10</p>
     <div class="progress">
-      <div class="bar"></div>
+      <div class="bar" data-ng-style="{'width' : main.progressBar + '%'}" data-ng-class="{'green': main.progressBar > 0 , 'orange': main.progressBar > 33 , 'red':  main.progressBar > 66, 'final': main.progressBar > 99}"></div>
     </div>
     <p class="question">{{main.pregunta.text}}</p>
     <ul class="answers">
@@ -18,24 +18,25 @@
         <label class="checkbox" for="answer-{{$index}}">{{answer}}</label>
       </li>
     </ul>
-    <a class="big-button" href="" data-ng-click="main.nextQuestion(main.result.answer)">answer</a>
-    <div class="list-answers">
-      <ul>
-        <li data-ng-repeat="finalAnswer in main.finalAnswers">
-          <p>{{finalAnswer.text}}</p>
-          <p class="ok" data-ng-if="finalAnswer.response == finalAnswer.valid">
-            <i class="fa fa-check-circle"></i>
-            {{finalAnswer.response}}
-          </p>
-          <p class="ko" data-ng-if="finalAnswer.response != finalAnswer.valid">
-            <i class="fa fa-times-circle"></i>
-            {{finalAnswer.response}}
-            <span class="correct-answer"> - The correct answer was {{finalAnswer.valid}}</span>
-          </p>
-        </li>
-      </ul>
-    </div>
-   
+    <button class="big-button" href="" data-ng-disabled="main.flag" data-ng-click="main.nextQuestion(main.result.answer)">answer</button>
+  </div>
+  <p class="question" data-ng-if="main.endGame">You answered {{main.correctAnswers}} of 10 questions.</p>
+    
+  <div class="list-answers" data-ng-if="main.inGame || main.endGame">
+    <ul>
+      <li data-ng-repeat="finalAnswer in main.finalAnswers | orderBy:'id':true">
+        <p>{{finalAnswer.text}}</p>
+        <p class="ok" data-ng-if="finalAnswer.response == finalAnswer.valid">
+          <i class="fa fa-check-circle"></i>
+          {{finalAnswer.response}}
+        </p>
+        <p class="ko" data-ng-if="finalAnswer.response != finalAnswer.valid">
+          <i class="fa fa-times-circle"></i>
+          {{finalAnswer.response}}
+          <span class="correct-answer"> - The correct answer was {{finalAnswer.valid}}</span>
+        </p>
+      </li>
+    </ul>
   </div>
   
 

@@ -13,32 +13,55 @@
     
     var vm = this;
 
+    vm.interval = undefined;
     vm.generados = [];
-    // vm.preguntas = [];
+    
     vm.pregunta = undefined;
     vm.intro = true;
     vm.inGame = false;
+    vm.endGame = false;
+    vm.flag = false;
     vm.randomNumber = 0;
     vm.answers = [];
     vm.result = {};
     vm.finalAnswers = [];
-
-    //TODO VERIFICAR QUE EL RANDOM DE NUMEROS ES UNICO Y UNA VEZ HECHO EL ARRAY REORDENAR
-    //TODO ANIMAR LA PROGRESSBAR EN FUNCION DEL INTERVAL
-    //TODO VISTA DE 3º PANTALLA FINAL
-
+    vm.progressBar = 0;
+    vm.correctAnswers = 0;
+    
     vm.startGame = function() {
+      vm.flag = true;
       createQuestion();
     }
 
     vm.nextQuestion = function(respuesta) {
-      vm.finalAnswers.push({'text': vm.pregunta.text, 'response': respuesta, 'valid': vm.pregunta.number});
+      $interval.cancel(vm.interval);
+      vm.flag = true;
+      respuesta = (respuesta == undefined) ? 'Not answered' : respuesta;
+      if (respuesta == vm.pregunta.number) {
+        vm.correctAnswers++;
+      }
+      vm.finalAnswers.push({'text': vm.pregunta.text, 'response': respuesta, 'valid': parseInt(vm.pregunta.number)});
+      
       if (vm.generados.length < 10) {
         createQuestion();
       } else {
         vm.inGame = false;
         vm.endGame = true;
       }
+    }
+
+    function getRandomInt(min, max) {
+      return _.random(min,max);
+    }
+
+    function getRandomInts(times, ints) {
+      while (ints.length <= times) {
+        var randNum = getRandomInt(0, 1000);
+        if(!ints.indexOf(randNum) > -1){
+          ints.push(randNum);
+        }
+      }
+      return ints;
     }
 
     function createQuestion() {
@@ -49,8 +72,12 @@
         var idx = vm.pregunta.text.indexOf(" ");
         vm.pregunta.text = vm.pregunta.text.substring(idx);
         vm.pregunta.text = 'What ' + vm.pregunta.text.slice(0, -1) + '?';
-        vm.answers = _.times(3, _.random.bind(_,0, vm.pregunta.number));
+        vm.answers = [];
         vm.answers.push(parseInt(vm.pregunta.number));
+        vm.answers = getRandomInts(3, vm.answers);
+        vm.answers = _.shuffle(vm.answers);
+        vm.result.answer = undefined;
+        vm.flag = false;
         if (vm.intro) { 
           vm.intro = false;
           vm.inGame = true;
@@ -61,11 +88,13 @@
 
     function createInterval() {
       vm.counter = 0;
-      var interval = $interval(function() {
+      vm.progressBar = 0;
+      vm.percentageInterval = 100/30;
+      vm.interval = $interval(function() {
         vm.counter++;
-        if(vm.counter == 10) { //CAMBIAR A 30s
-          $interval.cancel(interval);
-          vm.nextQuestion();
+        vm.progressBar = vm.progressBar + vm.percentageInterval;
+        if(vm.counter == 30) {
+          vm.nextQuestion(vm.result.answer);
         }
       }, 1000);
     }

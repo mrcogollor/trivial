@@ -25,7 +25,6 @@
     vm.answers = [];
     vm.result = {};
     vm.finalAnswers = [];
-    vm.progressBar = 0;
     vm.correctAnswers = 0;
     
     vm.startGame = function() {
@@ -57,7 +56,7 @@
     function getRandomInts(times, ints) {
       while (ints.length <= times) {
         var randNum = getRandomInt(0, 1000);
-        if(!ints.indexOf(randNum) > -1){
+        if(!(ints.indexOf(randNum) > -1)){
           ints.push(randNum);
         }
       }
@@ -87,12 +86,13 @@
     }
 
     function createInterval() {
-      vm.counter = 0;
-      vm.progressBar = 0;
-      vm.percentageInterval = 100/30;
+      vm.counter = -1;
+      vm.progressBar = -(100/30);
+      vm.percentageInterval = (100/30);
       vm.interval = $interval(function() {
         vm.counter++;
         vm.progressBar = vm.progressBar + vm.percentageInterval;
+
         if(vm.counter == 30) {
           vm.nextQuestion(vm.result.answer);
         }

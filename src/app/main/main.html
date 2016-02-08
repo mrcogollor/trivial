@@ -9,7 +9,7 @@
   <div class="section-question" data-ng-if="main.inGame">
     <p class="number-question">Question {{main.generados.length}} of 10</p>
     <div class="progress">
-      <div class="bar" data-ng-style="{'width' : main.progressBar + '%'}" data-ng-class="{'green': main.progressBar > 0 , 'orange': main.progressBar > 33 , 'red':  main.progressBar > 66, 'final': main.progressBar > 99}"></div>
+      <div class="bar" data-ng-style="{'width' : main.progressBar + '%'}" data-ng-class="{'green': main.counter >= 0 , 'orange': main.counter >= 10 , 'red': main.counter >=20 , 'final': main.counter == 30}"></div>
     </div>
     <p class="question">{{main.pregunta.text}}</p>
     <ul class="answers">

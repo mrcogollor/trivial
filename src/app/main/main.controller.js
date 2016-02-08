@@ -92,7 +92,7 @@
       vm.interval = $interval(function() {
         vm.counter++;
         vm.progressBar = vm.progressBar + vm.percentageInterval;
-
+        console.log(vm.counter);
         if(vm.counter == 30) {
           vm.nextQuestion(vm.result.answer);
         }
